@@ -1,0 +1,30 @@
+# Logs
+voice-verification/logs
+voice-verification/*.log
+voice-verification/npm-debug.log*
+voice-verification/yarn-debug.log*
+voice-verification/yarn-error.log*
+voice-verification/pnpm-debug.log*
+voice-verification/lerna-debug.log*
+
+voice-verification/node_modules
+voice-verification/dist
+voice-verification/dist-ssr
+voice-verification/*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+voice-verification/.idea
+voice-verification/.DS_Store
+voice-verification/*.suo
+voice-verification/*.ntvs*
+voice-verification/*.njsproj
+voice-verification/*.sln
+voice-verification/*.sw?
+
+backend/venv/*
+backend/**/__pycache__/
+backend/chroma_db
+backend/*.db
+
