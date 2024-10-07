@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Slider } from 'primereact/slider';
@@ -24,7 +24,6 @@ const ComparePage = () => {
   const [comparisonResult, setComparisonResult] = useState(null);
   const [audioDuration, setAudioDuration] = useState(0);
   const [comparisonMessage, setComparisonMessage] = useState(null);
-  const [chartData, setChartData] = useState(null);
   const [storedEmbedding, setStoredEmbedding] = useState(null);
   const [newEmbedding, setNewEmbedding] = useState(null);
   const [displayDimensions, setDisplayDimensions] = useState(10);
@@ -38,6 +37,81 @@ const ComparePage = () => {
   const toastRef = useRef(null);
   const timerRef = useRef(null);
   const playbackIntervalRef = useRef(null);
+
+  const chartHeight = useMemo(() => {
+    // Adjust these values as needed to match your layout
+    return audioBlob ? '400px' : '300px';
+  }, [audioBlob]);
+
+  const chartOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      r: {
+        angleLines: { display: true },
+        ticks: {
+          showLabelBackdrop: false,
+          font: { size: 8 }
+        },
+        pointLabels: {
+          font: { size: 10 }
+        }
+      }
+    },
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            let label = context.dataset.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.r !== null) {
+              label += context.parsed.r.toFixed(2);
+            }
+            return label;
+          }
+        }
+      }
+    }
+  }), []);
+
+  const memoizedChartData = useMemo(() => {
+    if (storedEmbedding || newEmbedding) {
+      const labels = Array.from({ length: displayDimensions }, (_, i) => `Dim ${i + 1}`);
+      const datasets = [];
+
+      if (storedEmbedding && storedEmbedding.length > 0) {
+        datasets.push({
+          label: 'Stored Voice',
+          data: storedEmbedding.slice(0, displayDimensions),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgb(255, 99, 132)',
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(255, 99, 132)'
+        });
+      }
+
+      if (newEmbedding && newEmbedding.length > 0) {
+        datasets.push({
+          label: 'New Voice',
+          data: newEmbedding.slice(0, displayDimensions),
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgb(54, 162, 235)',
+          pointBackgroundColor: 'rgb(54, 162, 235)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(54, 162, 235)'
+        });
+      }
+
+      return { labels, datasets };
+    }
+    return null;
+  }, [storedEmbedding, newEmbedding, displayDimensions]);
 
   useEffect(() => {
     fetchUsers();
@@ -243,47 +317,6 @@ const ComparePage = () => {
     }
   };
 
-  useEffect(() => {
-    // Prepare chart data whenever stored or new embedding changes
-    if (storedEmbedding || newEmbedding) {
-      const labels = Array.from({ length: displayDimensions }, (_, i) => `Dim ${i + 1}`);
-      const datasets = [];
-
-      if (storedEmbedding && storedEmbedding.length > 0) {
-        datasets.push({
-          label: 'Stored Voice',
-          data: storedEmbedding.slice(0, displayDimensions),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(255, 99, 132)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(255, 99, 132)'
-        });
-      }
-
-      if (newEmbedding && newEmbedding.length > 0) {
-        datasets.push({
-          label: 'New Voice',
-          data: newEmbedding.slice(0, displayDimensions),
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgb(54, 162, 235)',
-          pointBackgroundColor: 'rgb(54, 162, 235)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(54, 162, 235)'
-        });
-      }
-
-      setChartData({
-        labels,
-        datasets
-      });
-    } else {
-      setChartData(null);
-    }
-  }, [storedEmbedding, newEmbedding, displayDimensions]);
-
   const skeletonTemplate = () => {
     return (
       <div className="custom-skeleton">
@@ -313,130 +346,98 @@ const ComparePage = () => {
       <Toast ref={toastRef} />
       <Messages ref={messagesRef} />
       <h1>Compare Voice</h1>
-      {loading ? (
-        skeletonTemplate()
-      ) : (
-        <div className="p-fluid">
-          <div className="p-field mb-4">
-            <label htmlFor="user" className="block mb-2 text-left">Select User</label>
-            <Dropdown
-              id="user"
-              value={selectedUser.value}
-              options={users}
-              onChange={(e) => {
-                const selectedUserObject = users.find(user => user.value === e.value);
-                setSelectedUser(selectedUserObject);
-              }}
-              placeholder="Select a user"
-              optionLabel="label"
-            />
-          </div>
-          <div className="p-field mb-4">
-            <label className="block mb-2 text-left">Record Your Voice</label>
-            <div className="p-inputgroup mb-2">
-              <Button 
-                type="button" 
-                icon={isRecording ? "pi pi-stop" : "pi pi-play"} 
-                label={isRecording ? "Stop Recording" : "Start Recording"}
-                onClick={toggleRecording} 
-                disabled={audioBlob}
+      <div className="grid">
+        <div className="col-12 md:col-8">
+          {loading ? (
+            skeletonTemplate()
+          ) : (
+            <div className="p-fluid">
+              <div className="p-field mb-4">
+                <label htmlFor="user" className="block mb-2 text-left">Select User</label>
+                <Dropdown
+                  id="user"
+                  value={selectedUser.value}
+                  options={users}
+                  onChange={(e) => {
+                    const selectedUserObject = users.find(user => user.value === e.value);
+                    setSelectedUser(selectedUserObject);
+                  }}
+                  placeholder="Select a user"
+                  optionLabel="label"
+                />
+              </div>
+              <div className="p-field mb-4">
+                <label className="block mb-2 text-left">Record Your Voice</label>
+                <div className="p-inputgroup mb-2">
+                  <Button 
+                    type="button" 
+                    icon={isRecording ? "pi pi-stop" : "pi pi-play"} 
+                    label={isRecording ? "Stop Recording" : "Start Recording"}
+                    onClick={toggleRecording} 
+                    disabled={audioBlob}
+                  />
+                </div>
+                {isRecording && (
+                  <div className="mb-2 mt-4">
+                    <ProgressBar value={recordingTime} showValue={false} />
+                    <small className="block mt-1">Recording: {recordingTime} seconds</small>
+                  </div>
+                )}
+                {audioBlob && (
+                  <div className="audio-controls mt-4">
+                    <div className="flex align-items-center">
+                      <Button type="button" icon={isPlaying ? "pi pi-pause" : "pi pi-play"} onClick={playPauseAudio} className="mr-2" />
+                      <Slider 
+                        value={playbackTime} 
+                        max={audioDuration || recordingTime} 
+                        onChange={handlePlaybackTimeChange} 
+                        onSlideEnd={(e) => setPlaybackTime(e.value)}
+                        className="flex-grow-1 mx-2" 
+                        step={0.01}
+                      />
+                      <Button type="button" icon="pi pi-trash" onClick={discardRecording} className="ml-2 p-button-danger" />
+                    </div>
+                    <small className="block mt-2">
+                      {Math.floor(playbackTime)} / {Math.floor(audioDuration || recordingTime)} seconds
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="p-field mb-4">
+                <label htmlFor="threshold" className="block mb-2 text-left">Similarity Threshold: {threshold}%</label>
+                <Slider id="threshold" value={threshold} onChange={(e) => setThreshold(e.value)} />
+              </div>
+              <div className="p-field mb-4">
+                <label htmlFor="dimensions" className="block mb-2 text-left">Number of Dimensions: {displayDimensions}</label>
+                <Slider 
+                  id="dimensions" 
+                  value={displayDimensions} 
+                  onChange={(e) => setDisplayDimensions(e.value)} 
+                  min={5} 
+                  max={50} 
+                  step={5}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="col-12 md:col-4">
+          {memoizedChartData && (
+            <div className="card flex justify-content-center p-4" style={{ height: chartHeight }}>
+              <Chart 
+                type="radar" 
+                data={memoizedChartData} 
+                options={chartOptions} 
+                className="w-full" 
+                style={{ height: '100%' }}
               />
             </div>
-            {isRecording && (
-              <div className="mb-2 mt-4">
-                <ProgressBar value={recordingTime} showValue={false} />
-                <small className="block mt-1">Recording: {recordingTime} seconds</small>
-              </div>
-            )}
-            {audioBlob && (
-              <div className="audio-controls mt-4">
-                <div className="flex align-items-center">
-                  <Button type="button" icon={isPlaying ? "pi pi-pause" : "pi pi-play"} onClick={playPauseAudio} className="mr-2" />
-                  <Slider 
-                    value={playbackTime} 
-                    max={audioDuration || recordingTime} 
-                    onChange={handlePlaybackTimeChange} 
-                    onSlideEnd={(e) => setPlaybackTime(e.value)}
-                    className="flex-grow-1 mx-2" 
-                    step={0.01}
-                  />
-                  <Button type="button" icon="pi pi-trash" onClick={discardRecording} className="ml-2 p-button-danger" />
-                </div>
-                <small className="block mt-2">
-                  {Math.floor(playbackTime)} / {Math.floor(audioDuration || recordingTime)} seconds
-                </small>
-              </div>
-            )}
-          </div>
-          <div className="p-field mb-4">
-            <label htmlFor="threshold" className="block mb-2 text-left">Similarity Threshold: {threshold}%</label>
-            <Slider id="threshold" value={threshold} onChange={(e) => setThreshold(e.value)} />
-          </div>
-          <div className="p-field mb-4">
-            <label htmlFor="dimensions" className="block mb-2 text-left">Number of Dimensions: {displayDimensions}</label>
-            <Slider 
-              id="dimensions" 
-              value={displayDimensions} 
-              onChange={(e) => setDisplayDimensions(e.value)} 
-              min={5} 
-              max={50} 
-              step={5}
-            />
-          </div>
-          <Button label="Compare Voice" onClick={compareVoice} disabled={!selectedUser || !audioBlob} className="mb-4" />
+          )}
         </div>
-      )}
-      {chartData && (
-        <div className="card flex justify-content-center">
-          <Chart 
-            type="radar" 
-            data={chartData} 
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                r: {
-                  angleLines: {
-                    display: true
-                  },
-                  ticks: {
-                    showLabelBackdrop: false,
-                    font: {
-                      size: 8
-                    }
-                  },
-                  pointLabels: {
-                    font: {
-                      size: 10
-                    }
-                  }
-                }
-              },
-              plugins: {
-                legend: {
-                  position: 'top',
-                },
-                tooltip: {
-                  callbacks: {
-                    label: function(context) {
-                      let label = context.dataset.label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      if (context.parsed.r !== null) {
-                        label += context.parsed.r.toFixed(2);
-                      }
-                      return label;
-                    }
-                  }
-                }
-              }
-            }} 
-            className="w-full" 
-            style={{height: '400px'}}
-          />
-        </div>
-      )}
+      </div>
+      <div className="col-12 text-center mt-2">
+        <Button label="Compare Voice" onClick={compareVoice} disabled={!selectedUser || !audioBlob} className="mb-4" />
+      </div>
       {isLoading && (
         <div className="spinner-overlay">
           <ProgressSpinner 
