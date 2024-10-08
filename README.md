@@ -68,7 +68,7 @@ This application, built using React and FastAPI, provides an intuitive and effic
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/add_user_page_filled.png" alt="Add User Page with Validation" width="600"/>
+  <img src="screenshots/add_user_page_filled.png" alt="Add User Page with Validation" width="800"/>
 </p>
 
 **Figure 1:** Adding a new user with voice sample
@@ -86,7 +86,7 @@ This application, built using React and FastAPI, provides an intuitive and effic
 **Figure 3:** User management interface
 
 <p align="center">
-  <img src="screenshots/user_deletion.gif" alt="User Deletion" width="600"/>
+  <img src="screenshots/user_deletion.gif" alt="User Deletion" width="800"/>
 </p>
 
 **Figure 4:** Voice embedding visualization using radar chart
@@ -191,7 +191,55 @@ backend/
 
 Installation
 -------------
-[Provide detailed installation instructions here]
+To install and run the Voice Verification System, follow these steps:
+
+1. Open two terminal windows.
+
+2. In the first terminal: <br>
+   a. Create and activate a virtual environment (recommended):
+      Using Python's built-in venv:
+      ```bash
+      python -m venv venv
+      source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+      ```
+      Or using Conda:
+      ```bash
+      conda create -n voice_verification python=3.9
+      conda activate voice_verification
+      ```
+   b. Navigate to the backend directory:
+      ```bash
+      cd backend
+      ```
+   c. Install the Python requirements:
+      ```bash
+      pip install -r requirements.txt
+      ```
+   d. Run the backend server:
+      ```bash
+      python main.py
+      ```
+
+3. In the second terminal: <br>
+   a. Navigate to the voice-verification folder:
+      ```bash
+      cd voice-verification
+      ```
+   b. Install the Node.js dependencies:
+      ```bash
+      npm install
+      ```
+   c. Start the development server:
+      ```bash
+      npm run dev
+      ```
+
+4. Open your web browser and go to the provided link, typically:
+   ```
+   http://localhost:5173
+   ```
+
+You should now have both the backend and frontend running, and you can access the Voice Verification System through your web browser.
 
 Usage
 ------
@@ -248,7 +296,10 @@ For detailed API documentation, including request/response schemas and example u
 
 Known Issues and Limitations
 ----------------------------
-[List any known issues or limitations of your project]
+Known issues and limitations of the project include:
+
+1. Email Uniqueness: While the system requires a unique email address for each user, it does not provide specific feedback when attempting to register with an already-used email. Instead, it returns a generic "Failed to register user" error, which may confuse users trying to sign up with an email that's already in the system.
+
 
 Contributing
 ------------
@@ -263,7 +314,4 @@ Acknowledgments
 - [PrimeReact](https://www.primefaces.org/primereact/) for UI components
 - [PyAnnote](https://github.com/pyannote/pyannote-audio) for audio processing
 - [ChromaDB](https://www.trychroma.com/) for vector storage
-- [ChromaDB](https://www.trychroma.com/) for vector storage
-- [ChromaDB](https://www.trychroma.com/) for vector storage
-- [ChromaDB](https://www.trychroma.com/) for vector storage
-- [ChromaDB](https://www.trychroma.com/) for vector storage
+
