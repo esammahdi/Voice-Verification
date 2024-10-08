@@ -9,21 +9,34 @@ This application, built using React and FastAPI, provides an intuitive and effic
 
 [![License](https://img.shields.io/badge/License-MIT-lightgray.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Latest release](http://img.shields.io/badge/release-v1.0-blue.svg?style=flat-square)](./)
-[![React](https://img.shields.io/badge/React-v17.0-blue.svg?style=flat-square)](https://reactjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-v0.68.0-green.svg?style=flat-square)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-v18.3.1-blue.svg?style=flat-square)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-v0.115.0-green.svg?style=flat-square)](https://fastapi.tiangolo.com/)
 
 <p align="center">
-<a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg" alt="react" width="120" height="60"/> </a>
-<a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer"> <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="fastapi" width="120" height="60"/> </a>
-<a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-ar21.svg" alt="sqlite" width="120" height="60"/> </a>
+  <strong>Frontend:</strong><br>
+  <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg" alt="react" width="100" height="70"/> </a>
+  <a href="https://www.primefaces.org/primereact/" target="_blank" rel="noreferrer"> <img src="screenshots/primereact.png" alt="PrimeReact" width="100" height="70"/> </a>
+  <a href="https://vitejs.dev/" target="_blank" rel="noreferrer"> <img src="https://vitejs.dev/logo.svg" alt="Vite" width="50" height="50"/> </a>
 </p>
 
-</br>
+<p align="center">
+  <strong>Backend:</strong><br>
+  <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer"> <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="fastapi" width="100" height="90"/> </a>
+  <a href="https://github.com/pyannote/pyannote-audio" target="_blank" rel="noreferrer"> <img src="screenshots/pyannote.png" alt="PyAnnote" width="100" height="90"/> </a>
+</p>
 
 <p align="center">
-<a href="https://www.primefaces.org/primereact/" target="_blank" rel="noreferrer"> <img src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" alt="PrimeReact" width="120" height="60"/> </a>
-<a href="https://vitejs.dev/" target="_blank" rel="noreferrer"> <img src="https://vitejs.dev/logo.svg" alt="Vite" width="60" height="60"/> </a>
-<a href="https://github.com/pyannote/pyannote-audio" target="_blank" rel="noreferrer"> <img src="https://github.com/pyannote/pyannote-audio/raw/develop/doc/images/logo_with_name.png" alt="PyAnnote" width="120" height="60"/> </a>
+  <strong>Database:</strong><br>
+  <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-ar21.svg" alt="sqlite" width="100" height="50"/> </a>
+  <a href="https://docs.trychroma.com/" target="_blank" rel="noreferrer"> <img src="screenshots/chroma.png" alt="chroma" width="80" height="50"/> </a>
+</p>
+
+<p align="center">
+  <strong>Programming Languages:</strong><br>
+  <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="50" height="50"/> </a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="50" height="50"/> </a>
+  <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="50" height="50"/> </a>
+  <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="50" height="50"/> </a>
 </p>
 
 </br>
