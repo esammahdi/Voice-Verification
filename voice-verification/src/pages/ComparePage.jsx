@@ -5,9 +5,9 @@ import { Slider } from 'primereact/slider';
 import { ProgressBar } from 'primereact/progressbar';
 import { Toast } from 'primereact/toast';
 import { Messages } from 'primereact/messages';
-import { Chart } from 'primereact/chart';
 import { Skeleton } from 'primereact/skeleton';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import VoiceComparisonChart from '../components/VoiceComparisonChart';
 
 const ComparePage = () => {
   const [users, setUsers] = useState([]);
@@ -42,76 +42,6 @@ const ComparePage = () => {
     // Adjust these values as needed to match your layout
     return audioBlob ? '400px' : '300px';
   }, [audioBlob]);
-
-  const chartOptions = useMemo(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      r: {
-        angleLines: { display: true },
-        ticks: {
-          showLabelBackdrop: false,
-          font: { size: 8 }
-        },
-        pointLabels: {
-          font: { size: 10 }
-        }
-      }
-    },
-    plugins: {
-      legend: { position: 'top' },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.dataset.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.r !== null) {
-              label += context.parsed.r.toFixed(2);
-            }
-            return label;
-          }
-        }
-      }
-    }
-  }), []);
-
-  const memoizedChartData = useMemo(() => {
-    if (storedEmbedding || newEmbedding) {
-      const labels = Array.from({ length: displayDimensions }, (_, i) => `Dim ${i + 1}`);
-      const datasets = [];
-
-      if (storedEmbedding && storedEmbedding.length > 0) {
-        datasets.push({
-          label: 'Stored Voice',
-          data: storedEmbedding.slice(0, displayDimensions),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(255, 99, 132)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(255, 99, 132)'
-        });
-      }
-
-      if (newEmbedding && newEmbedding.length > 0) {
-        datasets.push({
-          label: 'New Voice',
-          data: newEmbedding.slice(0, displayDimensions),
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgb(54, 162, 235)',
-          pointBackgroundColor: 'rgb(54, 162, 235)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(54, 162, 235)'
-        });
-      }
-
-      return { labels, datasets };
-    }
-    return null;
-  }, [storedEmbedding, newEmbedding, displayDimensions]);
 
   useEffect(() => {
     fetchUsers();
@@ -163,7 +93,6 @@ const ComparePage = () => {
       }));
 
       setUsers(newUsers);
-      setSelectedUser(newUsers[0]); 
     } catch (error) {
       console.error('Error fetching users:', error);
       toastRef.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to fetch users' });
@@ -356,7 +285,7 @@ const ComparePage = () => {
                 <label htmlFor="user" className="block mb-2 text-left">Select User</label>
                 <Dropdown
                   id="user"
-                  value={selectedUser.value}
+                  value={selectedUser?.value}
                   options={users}
                   onChange={(e) => {
                     const selectedUserObject = users.find(user => user.value === e.value);
@@ -422,17 +351,12 @@ const ComparePage = () => {
           )}
         </div>
         <div className="col-12 md:col-4">
-          {memoizedChartData && (
-            <div className="card flex justify-content-center p-4" style={{ height: chartHeight }}>
-              <Chart 
-                type="radar" 
-                data={memoizedChartData} 
-                options={chartOptions} 
-                className="w-full" 
-                style={{ height: '100%' }}
-              />
-            </div>
-          )}
+          <VoiceComparisonChart 
+            storedEmbedding={storedEmbedding}
+            newEmbedding={newEmbedding}
+            displayDimensions={displayDimensions}
+            height={chartHeight}
+          />
         </div>
       </div>
       <div className="col-12 text-center mt-2">

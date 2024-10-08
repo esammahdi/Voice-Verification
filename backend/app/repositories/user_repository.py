@@ -18,8 +18,24 @@ class UserRepository:
     def __init__(self, db_path: str):
         self.db_path = db_path
         self.local = threading.local()
+        self.create_table()
+        
         logger.info(f"UserRepository initialized with database path: {db_path}")
 
+    def create_table(self):
+        cursor = self.get_cursor()
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                surname TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL
+            )
+        ''')
+
+        self.get_connection().commit()
+    
     def get_connection(self):
         if not hasattr(self.local, "conn"):
             self.local.conn = sqlite3.connect(self.db_path)

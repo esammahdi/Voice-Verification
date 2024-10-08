@@ -1,19 +1,20 @@
-import { Link } from 'react-router-dom';
-import { FaExclamationTriangle } from 'react-icons/fa';
+import { Button } from 'primereact/button';
+import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className='text-center flex flex-col justify-center items-center h-96'>
-      <FaExclamationTriangle className='text-yellow-400 text-6xl mb-4' />
-      <h1 className='text-6xl font-bold mb-4'>404 Not Found</h1>
-      <p className='text-xl mb-5'>This page does not exist</p>
-      <Link
-        to='/'
-        className='text-white bg-indigo-700 hover:bg-indigo-900 rounded-md px-3 py-2 mt-4'
-      >
-        Go Back
-      </Link>
-    </section>
+    <div className="flex flex-column align-items-center justify-content-center min-h-screen">
+      <div className="flex justify-content-center align-items-center bg-red-500 border-circle mb-5" style={{width: '8rem', height: '8rem'}}>
+        <i className="pi pi-exclamation-triangle text-7xl text-white"></i>
+      </div>
+      <span className="text-red-500 font-bold text-5xl">404</span>
+      <h1 className="text-900 font-bold text-5xl mb-2">Not Found</h1>
+      <div className="text-600 mb-5">Requested resource is not available</div>
+      <Button icon="pi pi-arrow-left" label="Go Back" onClick={() => navigate(-1)} />
+    </div>
   );
 };
+
 export default NotFoundPage;
