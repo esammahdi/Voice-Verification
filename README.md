@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://github.com/your-username/voice-verification-system" target="_blank" rel="noreferrer"> <img src="path/to/your/logo.png" alt="voice verification system logo" width="400" height="300"/> </a>  
+<a href="https://github.com/your-username/voice-verification-system" target="_blank" rel="noreferrer"> <img src="screenshots/logo.svg" alt="voice verification system logo" width="400" height="300"/> </a>  
 </p>
 
 # Voice Verification System
@@ -30,6 +30,9 @@ This application, built using React and FastAPI, provides an intuitive and effic
 
 ## Table of Contents
 
+- [Voice Verification System](#voice-verification-system)
+    - [🎙️ **A Simple Yet Powerful Voice Identity Verification Application**](#️-a-simple-yet-powerful-voice-identity-verification-application)
+  - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Introduction](#introduction)
   - [Key Features](#key-features)
