@@ -5,6 +5,7 @@
 # Voice Verification System
 
 ### 🎙️ **A Simple Yet Powerful Voice Identity Verification Application**
+
 This application, built using React and FastAPI, provides an intuitive and efficient way to register and verify user identities through voice comparison.
 
 [![License](https://img.shields.io/badge/License-MIT-lightgray.svg?style=flat-square)](https://opensource.org/licenses/MIT)
@@ -55,10 +56,14 @@ This application, built using React and FastAPI, provides an intuitive and effic
   - [Installation](#installation)
   - [Usage](#usage)
   - [API Endpoints](#api-endpoints)
-    - [User Management](#user-management)
-    - [Audio Processing](#audio-processing)
     - [Detailed Endpoint Descriptions](#detailed-endpoint-descriptions)
       - [Register a New User](#register-a-new-user)
+      - [Retrieve a Specific User](#retrieve-a-specific-user)
+      - [Update a User](#update-a-user)
+      - [Delete a User](#delete-a-user)
+      - [Retrieve All Users](#retrieve-all-users)
+      - [Retrieve Users with Embeddings](#retrieve-users-with-embeddings)
+      - [Process Audio](#process-audio)
       - [Compare Voice Sample](#compare-voice-sample)
   - [Known Issues and Limitations](#known-issues-and-limitations)
   - [Contributing](#contributing)
@@ -77,7 +82,7 @@ This application, built using React and FastAPI, provides an intuitive and effic
   <img src="screenshots/compare_page_with_results.png" alt="Compare Page with Results" width="600"/>
 </p>
 
-**Figure 2:** Comparing a voice sample against registered users
+**Figure 2:** Voice comparison interface
 
 <p align="center">
   <img src="screenshots/users_page.png" alt="Users Page" width="600"/>
@@ -89,55 +94,66 @@ This application, built using React and FastAPI, provides an intuitive and effic
   <img src="screenshots/user_deletion.gif" alt="User Deletion" width="800"/>
 </p>
 
-**Figure 4:** Voice embedding visualization using radar chart
+**Figure 4:** Deleting a User
 
 <p align="center">
   <img src="screenshots/shimmer_loading.gif" alt="Shimmer Loading" width="800"/>
 </p>
 
-**Figure 5:** Full application demo showcasing key features
+**Figure 5:** Shimmer loading animation
 
 Introduction
 ------------
+
 The Voice Verification System is a modern web application that allows users to register their voice and later verify their identity through voice comparison. It combines the power of React for the frontend and FastAPI for the backend to create a seamless and efficient user experience.
 
 Key Features
 ------------
+
 🎤 **Voice Registration**
+
 - Users can register by providing personal information and a voice sample.
 - Secure storage of user data and voice embeddings.
 - Form validation ensures accurate and complete user information.
 
 🔍 **Voice Comparison**
+
 - Compare a new voice sample against registered users.
 - Receive similarity scores and verification results.
 - Dimensional visualization of voice embeddings for intuitive comparison.
 
 👥 **User Management**
+
 - Add new users through an intuitive form that has validation.
 - View and manage registered users through an intuitive interface.
 - Delete user profiles when necessary.
 
 📊 **Data Visualization**
+
 - Interactive radar chart displaying multi-dimensional voice embeddings.
 - Adjustable number of dimensions for detailed analysis.
 
 ⏳ **Shimmer Loading**
+
 - Smooth loading animations during data fetching and processing.
 - Enhances user experience by providing visual feedback on loading states.
 
 🖥️ **Responsive UI**
+
 - Modern, responsive design using PrimeReact components.
 - Intuitive navigation between different sections of the app.
 
 ⚡ **Fast and Efficient**
+
 - Utilizes Vite for rapid development and optimized builds.
 - FastAPI backend for high-performance API operations.
 
 🔊 **Advanced Audio Processing**
+
 - Leverages PyAnnote for sophisticated audio analysis and feature extraction.
 
 🗃️ **Efficient Data Storage**
+
 - Uses ChromaDB for vector storage, enabling fast similarity searches.
 - SQLite database for structured data storage.
 
@@ -191,6 +207,7 @@ backend/
 
 Installation
 -------------
+
 To install and run the Voice Verification System, follow these steps:
 
 1. Open two terminal windows.
@@ -198,43 +215,58 @@ To install and run the Voice Verification System, follow these steps:
 2. In the first terminal: <br>
    a. Create and activate a virtual environment (recommended):
       Using Python's built-in venv:
+
       ```bash
       python -m venv venv
       source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
       ```
+
       Or using Conda:
+
       ```bash
       conda create -n voice_verification python=3.9
       conda activate voice_verification
       ```
+
    b. Navigate to the backend directory:
+
       ```bash
       cd backend
       ```
+
    c. Install the Python requirements:
+
       ```bash
       pip install -r requirements.txt
       ```
+
    d. Run the backend server:
+
       ```bash
       python main.py
       ```
 
 3. In the second terminal: <br>
    a. Navigate to the voice-verification folder:
+
       ```bash
       cd voice-verification
       ```
+
    b. Install the Node.js dependencies:
+
       ```bash
       npm install
       ```
+
    c. Start the development server:
+
       ```bash
       npm run dev
       ```
 
 4. Open your web browser and go to the provided link, typically:
+
    ```
    http://localhost:5173
    ```
@@ -243,6 +275,7 @@ You should now have both the backend and frontend running, and you can access th
 
 Usage
 ------
+
 1. **Add User**: Navigate to the "Add User" page to register a new user with their voice sample.
 2. **Compare Voice**: Use the "Compare" page to record a voice sample and compare it against registered users.
 3. **Manage Users**: The "Users" page allows you to view and manage registered users.
@@ -252,8 +285,6 @@ API Endpoints
 
 Our Voice Verification System provides a comprehensive set of RESTful API endpoints for user management and audio processing. Below is a detailed overview of the available endpoints:
 
-### User Management
-
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/users` | Register a new user with voice sample |
@@ -262,20 +293,17 @@ Our Voice Verification System provides a comprehensive set of RESTful API endpoi
 | `DELETE` | `/users/{user_id}` | Delete a user |
 | `GET`  | `/users` | Retrieve all registered users |
 | `GET`  | `/users_with_embeddings` | Retrieve all users with their voice embeddings |
-
-### Audio Processing
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
 | `POST` | `/audio/process` | Process and save a new voice sample for a user |
 | `POST` | `/audio/compare` | Compare a voice sample against a registered user |
 
 ### Detailed Endpoint Descriptions
 
 #### Register a New User
+
 ```http
 POST /users
 ```
+
 - **Body**: `multipart/form-data`
   - `name`: string
   - `surname`: string
@@ -283,10 +311,73 @@ POST /users
   - `audio`: file (voice sample)
 - **Response**: User object with ID
 
+#### Retrieve a Specific User
+
+```http
+GET /users/{user_id}
+```
+
+- **Parameters**:
+  - `user_id`: integer (path parameter)
+- **Response**: User object
+
+#### Update a User
+
+```http
+PUT /users/{user_id}
+```
+
+- **Parameters**:
+  - `user_id`: integer (path parameter)
+- **Body**: JSON
+  - `name`: string
+  - `surname`: string
+  - `email`: string
+- **Response**: Updated user object
+
+#### Delete a User
+
+```http
+DELETE /users/{user_id}
+```
+
+- **Parameters**:
+  - `user_id`: integer (path parameter)
+- **Response**: Success message
+
+#### Retrieve All Users
+
+```http
+GET /users
+```
+
+- **Response**: Array of user objects
+
+#### Retrieve Users with Embeddings
+
+```http
+GET /users_with_embeddings
+```
+
+- **Response**: Array of user objects including voice embeddings
+
+#### Process Audio
+
+```http
+POST /audio/process
+```
+
+- **Body**: `multipart/form-data`
+  - `user_id`: integer
+  - `file`: file (audio sample)
+- **Response**: Success message
+
 #### Compare Voice Sample
+
 ```http
 POST /audio/compare
 ```
+
 - **Body**: `multipart/form-data`
   - `user_id`: integer
   - `file`: file (voice sample to compare)
@@ -296,22 +387,27 @@ For detailed API documentation, including request/response schemas and example u
 
 Known Issues and Limitations
 ----------------------------
+
 Known issues and limitations of the project include:
 
 1. Email Uniqueness: While the system requires a unique email address for each user, it does not provide specific feedback when attempting to register with an already-used email. Instead, it returns a generic "Failed to register user" error, which may confuse users trying to sign up with an email that's already in the system.
 
-
 Contributing
 ------------
+
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 License
 -------
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 Acknowledgments
 ---------------
+
 - [PrimeReact](https://www.primefaces.org/primereact/) for UI components
 - [PyAnnote](https://github.com/pyannote/pyannote-audio) for audio processing
 - [ChromaDB](https://www.trychroma.com/) for vector storage
 
+- [PyAnnote](https://github.com/pyannote/pyannote-audio) for audio processing
+- [ChromaDB](https://www.trychroma.com/) for vector storage
