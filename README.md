@@ -44,9 +44,6 @@ This application, built using React and FastAPI, provides an intuitive and effic
 
 ## Table of Contents
 
-- [Voice Verification System](#voice-verification-system)
-    - [🎙️ **A Simple Yet Powerful Voice Identity Verification Application**](#️-a-simple-yet-powerful-voice-identity-verification-application)
-  - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Introduction](#introduction)
   - [Key Features](#key-features)
@@ -56,15 +53,6 @@ This application, built using React and FastAPI, provides an intuitive and effic
   - [Installation](#installation)
   - [Usage](#usage)
   - [API Endpoints](#api-endpoints)
-    - [Detailed Endpoint Descriptions](#detailed-endpoint-descriptions)
-      - [Register a New User](#register-a-new-user)
-      - [Retrieve a Specific User](#retrieve-a-specific-user)
-      - [Update a User](#update-a-user)
-      - [Delete a User](#delete-a-user)
-      - [Retrieve All Users](#retrieve-all-users)
-      - [Retrieve Users with Embeddings](#retrieve-users-with-embeddings)
-      - [Process Audio](#process-audio)
-      - [Compare Voice Sample](#compare-voice-sample)
   - [Known Issues and Limitations](#known-issues-and-limitations)
   - [Contributing](#contributing)
   - [License](#license)
@@ -382,8 +370,6 @@ POST /audio/compare
   - `user_id`: integer
   - `file`: file (voice sample to compare)
 - **Response**: Similarity score and voice embeddings
-
-For detailed API documentation, including request/response schemas and example usage, please refer to our [API Documentation](http://localhost:8000/docs) when the server is running.
 
 Known Issues and Limitations
 ----------------------------
