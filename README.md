@@ -26,13 +26,13 @@ This application, built using React and FastAPI, provides an intuitive and effic
 </p>
 
 <p align="center">
-  <strong>Database:</strong><br>
+  <strong>Database:</strong><br><br>
   <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-ar21.svg" alt="sqlite" width="100" height="50"/> </a>
   <a href="https://docs.trychroma.com/" target="_blank" rel="noreferrer"> <img src="screenshots/chroma.png" alt="chroma" width="80" height="50"/> </a>
 </p>
 
 <p align="center">
-  <strong>Programming Languages:</strong><br>
+  <strong>Programming Languages:</strong><br><br>
   <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="50" height="50"/> </a>
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="50" height="50"/> </a>
   <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="50" height="50"/> </a>
