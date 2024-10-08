@@ -30,12 +30,7 @@ This application, built using React and FastAPI, provides an intuitive and effic
 
 ## Table of Contents
 
-
-- [Voice Verification System](#voice-verification-system)
-    - [🎙️ **A Simple Yet Powerful Voice Identity Verification Application**](#️-a-simple-yet-powerful-voice-identity-verification-application)
-  - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
-  - [Demo](#demo)
   - [Introduction](#introduction)
   - [Key Features](#key-features)
   - [Architecture](#architecture)
@@ -79,8 +74,6 @@ This application, built using React and FastAPI, provides an intuitive and effic
 </p>
 
 **Figure 4:** Voice embedding visualization using radar chart
-
-## Demo
 
 <p align="center">
   <img src="screenshots/shimmer_loading.gif" alt="Shimmer Loading" width="800"/>
